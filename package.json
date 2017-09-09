@@ -1,0 +1,31 @@
+{
+  "name": "node-ishadow-config",
+  "version": "1.1.1",
+  "description": "爬取 iShadow 的 Shadowsocks 免费配置信息",
+  "main": "./bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon bin/index.js --exec babel-node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vxhly/node-ishadow-config.git"
+  },
+  "keywords": [
+    "iShadow",
+    "Shadowsocks",
+    "node.js",
+    "es6"
+  ],
+  "author": "'vxhly' <'904334946@qq.com'>",
+  "private": true,
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vxhly/node-ishadow-config/issues"
+  },
+  "homepage": "https://github.com/vxhly/node-ishadow-config#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.81.0"
+  }
+}
