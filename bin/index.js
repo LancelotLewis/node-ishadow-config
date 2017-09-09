@@ -6,7 +6,7 @@ import request from 'request'
 const config = ".\\config\\config.json"
 const config_result = JSON.parse(fs.readFileSync(config))
 const SS_HOME = config_result["SS_HOME"]
-let SS_CONFIG = SS_HOME + 'gui-config.json'
+const SS_CONFIG = SS_HOME + 'gui-config.json'
 
 const url = config_result["URL"]
 
@@ -29,7 +29,7 @@ const fetchConfig = (url) => {
       const $ = cheerio.load(html)
       const portfolio = $('#portfolio .hover-text')
       const SS_config = JSON.parse(fs.readFileSync(SS_CONFIG))
-      const SS_configs = deleteDefault(SS_config["configs"])
+      let SS_configs = deleteDefault(SS_config["configs"])
 
       for (let i = 0; i < portfolio.length; i++) {
         const h4 = portfolio.eq(i)
@@ -40,7 +40,6 @@ const fetchConfig = (url) => {
 
         console.log(JSON.stringify(configs, null, 2))
       }
-      // console.log(SS_configs)
       fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2))
     })
   })
@@ -48,6 +47,7 @@ const fetchConfig = (url) => {
 
 const get_config = (obj) => {
   let h4text = []
+
   let config = {
     "server": "",
     "server_port": 0,
@@ -56,6 +56,7 @@ const get_config = (obj) => {
     "remarks": "",
     "timeout": 5
   }
+
   for (let i = 0; i < obj.length; i++) {
     h4text.push(obj.eq(i)
       .text()
@@ -68,8 +69,10 @@ const get_config = (obj) => {
   return config
 }
 
-const this_hours = new Date()
-  .getHours()
-if (this_hours === 0 || this_hours === 6 || this_hours === 12 || this_hours === 24) {
-  fetchConfig(url)
-}
+setInterval(() => {
+  let this_hours = new Date()
+    .getHours()
+  if (this_hours === 0 || this_hours === 6 || this_hours === 12 || this_hours === 24) {
+    fetchConfig(url)
+  }
+}, 60 * 60 * 1000)

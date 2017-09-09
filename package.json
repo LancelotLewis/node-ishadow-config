@@ -1,6 +1,6 @@
 {
   "name": "node-ishadow-config",
-  "version": "1.1.1",
+  "version": "1.1.5",
   "description": "爬取 iShadow 的 Shadowsocks 免费配置信息",
   "main": "./bin/index.js",
   "scripts": {
