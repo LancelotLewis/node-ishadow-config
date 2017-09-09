@@ -1,6 +1,6 @@
 {
   "name": "node-ishadow-config",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "爬取 iShadow 的 Shadowsocks 免费配置信息",
   "main": "./bin/index.js",
   "scripts": {
@@ -25,7 +25,11 @@
   },
   "homepage": "https://github.com/vxhly/node-ishadow-config#readme",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "cheerio": "^1.0.0-rc.2",
+    "nodemon": "^1.12.0",
     "request": "^2.81.0"
   }
 }
