@@ -39,14 +39,12 @@ const fetchConfig = (url) => {
       const $ = cheerio.load(html)
       const portfolio = $('#portfolio .hover-text')
       const SS_config = JSON.parse(fs.readFileSync(SS_CONFIG)) // 将配置读取进来
-      let SS_configs = deleteDefault(SS_config["configs"])
+      let SS_configs = SS_config["configs"]
 
       for (let i = 0; i < portfolio.length; i++) {
         const h4 = portfolio.eq(i).find('h4').not('h4:last-child')
         const configs = get_config(h4)
         SS_configs.push(configs) // push 到 JSON 数组
-
-        console.log(JSON.stringify(configs, null, 2))
       }
       fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2)) // 将配置格式化成 JSON 数组后写入文件
     })
@@ -80,6 +78,12 @@ const get_config = (obj) => {
   return config
 }
 
+const SS_config = JSON.parse(fs.readFileSync(SS_CONFIG)) // 将配置读取进来
+let SS_configs = deleteDefault(SS_config["configs"])
+fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2))
+fetchConfig(url)
+console.log("update Shadowsocks config successful")
+
 setInterval(() => {
   /**
    * 每一小时执行一次爬虫, 只在当天 0 点, 6点, 12 点, 24 点 更新配置
@@ -87,10 +91,8 @@ setInterval(() => {
    */
 
   let this_hours = new Date().getHours()
-  
+
   if (this_hours === 0 || this_hours === 6 || this_hours === 12 || this_hours === 24) {
     fetchConfig(url)
   }
 }, 60 * 60 * 1000)
-
-fetchConfig(url)

@@ -97,7 +97,7 @@ const geth4_config = (obj) => {
   for (let i = 0; i < obj.length; i++) {
     h4text.push(obj.eq(i).text().trim())
   }
-  // console.log(h4text)
+
   config.server = h4text[0].split(':')[1] || h4text[0].split('：')[1]
   config.server_port = h4text[1].split(':')[1] || h4text[1].split('：')[1]
   config.password = h4text[2].split(':')[1] || h4text[2].split('：')[1] ? h4text[2].split(':')[1] || h4text[2].split('：')[1] : ''
@@ -145,6 +145,12 @@ const fetchConfig = (url) => {
   })
 }
 
+const SS_config = JSON.parse(fs.readFileSync(SS_CONFIG)) // 将配置读取进来
+let SS_configs = deleteDefault(SS_config["configs"])
+fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2))
+fetchConfig(url)
+console.log("update Shadowsocks config successful")
+
 setInterval(() => {
   /**
    * 每一小时执行一次爬虫, 只在当天 0 点, 6点, 12 点, 24 点 更新配置
@@ -153,12 +159,7 @@ setInterval(() => {
 
   let this_hours = new Date().getHours()
 
-  if (this_hours === 0 || this_hours === 6 || this_hours === 17 || this_hours === 24) {
-    const SS_config = JSON.parse(fs.readFileSync(SS_CONFIG)) // 将配置读取进来
-    let SS_configs = deleteDefault(SS_config["configs"])
-    fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2))
+  if (this_hours === 0 || this_hours === 6 || this_hours === 12 || this_hours === 24) {
     fetchConfig(url)
   }
 }, 60 * 60 * 1000)
-
-fetchConfig(url)
