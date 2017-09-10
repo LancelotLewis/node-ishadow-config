@@ -3,8 +3,8 @@ import fs from 'fs'
 import cheerio from 'cheerio'
 import request from 'request'
 
-const config = ".\\config\\config.json"
-const config_result = JSON.parse(fs.readFileSync(config))
+const json_config = ".\\config\\config.json"
+const config_result = JSON.parse(fs.readFileSync(json_config))
 const SS_HOME = config_result["SS_HOME"]
 const SS_CONFIG = SS_HOME + 'gui-config.json' // 配置信息将会存储在这个文件中
 
@@ -87,7 +87,10 @@ setInterval(() => {
    */
 
   let this_hours = new Date().getHours()
+  
   if (this_hours === 0 || this_hours === 6 || this_hours === 12 || this_hours === 24) {
     fetchConfig(url)
   }
 }, 60 * 60 * 1000)
+
+fetchConfig(url)

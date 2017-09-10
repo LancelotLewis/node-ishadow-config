@@ -2,10 +2,11 @@
   "name": "node-ishadow-config",
   "version": "1.1.6",
   "description": "爬取 iShadow 的 Shadowsocks 免费配置信息",
-  "main": "./bin/index.js",
+  "main": "./bin/server2.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon bin/index.js --exec babel-node"
+    "server1": "nodemon bin/server1.js --exec babel-node",
+    "server2": "nodemon bin/server2.js --exec babel-node",
   },
   "repository": {
     "type": "git",

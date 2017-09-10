@@ -46,6 +46,9 @@ cd node-ishadow-config
 # 安装依赖
 npm install
 
-# 开启服务
-npm run server
+# 开启服务，版本 1，直接获取 dom 节点中的配置
+npm run server1
+
+# 开启服务，版本 2，部分读取二维码配置，将更准确
+npm run server2
 ```
