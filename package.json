@@ -1,6 +1,6 @@
 {
   "name": "node-ishadow-config",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "爬取 iShadow 的 Shadowsocks 免费配置信息",
   "main": "./bin/server2.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "node.js",
     "es6"
   ],
-  "author": "'vxhly' <'904334946@qq.com'>",
+  "author": "vxhly <904334946@qq.com>",
   "private": true,
   "license": "MIT",
   "bugs": {
