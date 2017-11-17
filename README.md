@@ -2,9 +2,13 @@
 
 > 爬取 iShadow 的 Shadowsocks 免费配置信息
 
+# Tip
+
+> 最近国内对 VPN 这个墙的比较厉害，[ishadowx](https://go.ishadowx.net/) 该网站里面提供的 SS 也是不稳定，所以请思量清楚之后在使用
+
 # Shadowsocks 配置来源
 
-> [ishadowx](https://ss.ishadowx.net/index_cn.html)
+> [ishadowx](https://go.ishadowx.net/)
 
 # shadowsocks-windows
 
@@ -12,7 +16,7 @@
 
 # 爬虫脚本功能
 
-> [ishadowx](https://ss.ishadowx.net/index_cn.html) 将会在 0/6/12/24 时间段更新所有服务器的配置,脚本爬虫也将会在这个时间段进行爬取配置信息, 最后会将爬取到的所有配置信息以 JSON 数据形式保存到 Shadowsocks 软件安装目录下的 gui-config.json 文件
+> [ishadowx](https://go.ishadowx.net/) 将会在 0/6/12/24 时间段更新所有服务器的配置,脚本爬虫也将会在这个时间段进行爬取配置信息, 最后会将爬取到的所有配置信息以 JSON 数据形式保存到 Shadowsocks 软件安装目录下的 gui-config.json 文件
 
 # 配置
 
@@ -23,7 +27,7 @@
 ```json
 {
   "SS_HOME": "E:\\Shadowsocks\\",
-  "URL": "https://ss.ishadowx.net/index_cn.html"
+  "URL": "https://go.ishadowx.net/"
 }
 ```
 
