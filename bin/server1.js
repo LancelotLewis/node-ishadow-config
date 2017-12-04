@@ -10,6 +10,11 @@ const SS_CONFIG = SS_HOME + 'gui-config.json' // 配置信息将会存储在这�
 
 const url = config_result["URL"] // 爬取的网页
 
+
+const exec = require('child_process').exec;
+const startScript = config_result["START"];
+const endScript = config_result["END"];
+
 const deleteDefault = (json) => {
   /**
    * 去除默认配置
@@ -47,6 +52,12 @@ const fetchConfig = (url) => {
         SS_configs.push(configs) // push 到 JSON 数组
       }
       fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2)) // 将配置格式化成 JSON 数组后写入文件
+      exec(endScript, (error, stdout, stderr) => {
+        // 获取命令执行的输出
+        console.log('cancle shadowsocks success');
+        exec(startScript);
+        console.log('start shadowsocks success');
+      });
     })
   })
 }

@@ -1,4 +1,6 @@
 {
-  "SS_HOME": "E:\\Shadowsocks\\",
-  "URL": "https://ss.ishadowx.net/index_cn.html"
+    "SS_HOME": "D:/green/shadowsocks/",
+    "URL": "https://go.ishadowx.net/",
+    "START": "start /b D:/green/shadowsocks/Shadowsocks.exe",
+    "END": "taskkill /f /im shadowsocks.exe"
 }

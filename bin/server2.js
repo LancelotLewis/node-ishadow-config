@@ -3,12 +3,16 @@ import fs from 'fs'
 import cheerio from 'cheerio'
 import request from 'request'
 
+const exec = require('child_process').exec;
+
 const json_config = ".\\config\\config.json"
 const config_result = JSON.parse(fs.readFileSync(json_config))
 const SS_HOME = config_result["SS_HOME"]
 const SS_CONFIG = SS_HOME + 'gui-config.json' // 配置信息将会存储在这个文件中
 
 const url = config_result["URL"] // 爬取的网页
+const startScript = config_result["START"];
+const endScript = config_result["END"];
 
 const deleteDefault = (json) => {
   /**
@@ -106,7 +110,7 @@ const geth4_config = (obj) => {
   const SS_config = JSON.parse(fs.readFileSync(SS_CONFIG)) // 将配置读取进来
   let SS_configs = SS_config["configs"]
   SS_configs.push(config)
-  fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2))
+  fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2))  
 }
 
 const fetchConfig = (url) => {
@@ -140,7 +144,15 @@ const fetchConfig = (url) => {
           geth4_config(h4)
         }
       }
-      getcode_config(decode_urls)
+      exec(endScript, (error, stdout, stderr) => {
+        // 获取命令执行的输出
+        console.log('cancle shadowsocks success');
+        getcode_config(decode_urls)
+        exec(startScript, (error, stdout, stderr) => {
+          // 获取命令执行的输出
+          console.log('start shadowsocks success');
+        });
+      });
     })
   })
 }
