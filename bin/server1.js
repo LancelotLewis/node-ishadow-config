@@ -3,7 +3,7 @@ import fs from 'fs'
 import cheerio from 'cheerio'
 import request from 'request'
 
-const json_config = ".\\config\\config.json"
+const json_config = "./config/config.json"
 const config_result = JSON.parse(fs.readFileSync(json_config))
 const SS_HOME = config_result["SS_HOME"]
 const SS_CONFIG = SS_HOME + 'gui-config.json' // 配置信息将会存储在这个文件中
@@ -56,7 +56,7 @@ const fetchConfig = (url) => {
         // 获取命令执行的输出
         console.log('cancle shadowsocks success');
         exec(startScript);
-        console.log('start shadowsocks success');
+        console.log('start shadowsocks success\n');
       });
     })
   })
@@ -95,15 +95,13 @@ fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2))
 fetchConfig(url)
 console.log("update Shadowsocks config successful")
 
-setInterval(() => {
-  /**
-   * 每一小时执行一次爬虫, 只在当天 0 点, 6点, 12 点, 24 点 更新配置
-   * @return {NULL}
-   */
+var schedule = require('node-schedule');
+var rule = new schedule.RecurrenceRule();
+// rule.dayOfWeek = [0, new schedule.Range(4, 6)];
+rule.hour = [0, 6, 12, 18];
+rule.minute = [1];
 
-  let this_hours = new Date().getHours()
-
-  if (this_hours === 0 || this_hours === 6 || this_hours === 12 || this_hours === 24) {
-    fetchConfig(url)
-  }
-}, 60 * 60 * 1000)
+schedule.scheduleJob(rule, function(){
+  console.log('启动定时任务');
+  fetchConfig(url);
+});
