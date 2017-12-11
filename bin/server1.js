@@ -44,7 +44,8 @@ const fetchConfig = (url) => {
       const $ = cheerio.load(html)
       const portfolio = $('#portfolio .hover-text')
       const SS_config = JSON.parse(fs.readFileSync(SS_CONFIG)) // 将配置读取进来
-      let SS_configs = SS_config["configs"]
+      let SS_configs = deleteDefault(SS_config["configs"])
+      // let SS_configs = []
 
       for (let i = 0; i < portfolio.length; i++) {
         const h4 = portfolio.eq(i).find('h4').not('h4:last-child')
@@ -58,8 +59,10 @@ const fetchConfig = (url) => {
         exec(startScript);
         console.log('start shadowsocks success\n');
       });
-    })
-  })
+    });
+  }).on('error', (err) => {
+    console.error(err);
+  });
 }
 
 const get_config = (obj) => {
@@ -91,7 +94,7 @@ const get_config = (obj) => {
 
 const SS_config = JSON.parse(fs.readFileSync(SS_CONFIG)) // 将配置读取进来
 let SS_configs = deleteDefault(SS_config["configs"])
-fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2))
+// fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2))
 fetchConfig(url)
 console.log("update Shadowsocks config successful")
 
@@ -99,7 +102,7 @@ var schedule = require('node-schedule');
 var rule = new schedule.RecurrenceRule();
 // rule.dayOfWeek = [0, new schedule.Range(4, 6)];
 rule.hour = [0, 6, 12, 18];
-rule.minute = [1];
+rule.minute = [5];
 
 schedule.scheduleJob(rule, function(){
   console.log('启动定时任务');
