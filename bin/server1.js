@@ -54,7 +54,6 @@ const fetchConfig = (url) => {
          const portfolio = $('#portfolio .hover-text')
          const SS_config = JSON.parse(fs.readFileSync(SS_CONFIG)) // 将配置读取进来
          let SS_configs = deleteDefault(SS_config["configs"])
-         // let SS_configs = []
    
          for (let i = 0; i < portfolio.length; i++) {
            const h4 = portfolio.eq(i).find('h4').not('h4:last-child')
@@ -71,8 +70,7 @@ const fetchConfig = (url) => {
          resolve();
        });
      }).on('error', (err) => {
-       reject();
-      //  console.error(err);
+       reject(err);
      });
   });
 }
@@ -128,7 +126,4 @@ const repeatFetch = (time = 0) => {
   });
 };
 
-// const SS_config = JSON.parse(fs.readFileSync(SS_CONFIG)) // 将配置读取进来
-// let SS_configs = deleteDefault(SS_config["configs"])
-// fs.writeFileSync(SS_CONFIG, JSON.stringify(SS_config, null, 2))
 repeatFetch();
