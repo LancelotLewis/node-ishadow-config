@@ -5,7 +5,7 @@
   "main": "./bin/server2.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon bin/server1.js --watch bin --watch config --exec babel-node",
+    "start": "nodemon bin/server1.js --watch bin --watch config --exec babel-node",
     "server1": "nodemon bin/server1.js --exec babel-node",
     "server2": "nodemon bin/server2.js --exec babel-node"
   },
