@@ -103,7 +103,7 @@ const get_config = (obj) => {
 };
 
 const repeatFetch = (time = 0) => {
-  fetchConfig(url).then(() => {
+  time === 0 && fetchConfig(url).then(() => {
     if (time === 0) {
       console.log("update Shadowsocks config successful", new Date().toLocaleString());
       schedule.scheduleJob(rule, () => {
