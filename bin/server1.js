@@ -2,7 +2,6 @@ import https from 'https'
 import fs from 'fs'
 import cheerio from 'cheerio'
 import request from 'request'
-import { clearInterval, setTimeout } from 'timers';
 
 const json_config = "./config/config.json"
 const config_result = JSON.parse(fs.readFileSync(json_config))
@@ -17,12 +16,11 @@ const endScript = config_result["END"];
 
 const schedule = require('node-schedule');
 const rule = new schedule.RecurrenceRule();
-let needRedo = false;
-let timer;
 let maxTime = 10;
+let isRunning = false;
 // rule.dayOfWeek = [0, new schedule.Range(4, 6)];
 rule.hour = [0, 6, 12, 18];
-rule.minute = [0];
+rule.minute = [1];
 
 const deleteDefault = (json) => {
   /**
@@ -103,8 +101,14 @@ const get_config = (obj) => {
 };
 
 const repeatFetch = (time = 0) => {
-  time === 0 && fetchConfig(url).then(() => {
+  if (isRunning) {
+    return;
+  }
+  isRunning = true;
+  fetchConfig(url).then(() => {
+    isRunning = false;
     if (time === 0) {
+      time = 0;
       console.log("update Shadowsocks config successful", new Date().toLocaleString());
       schedule.scheduleJob(rule, () => {
         console.log('启动定时任务', new Date().toLocaleString());
@@ -118,7 +122,7 @@ const repeatFetch = (time = 0) => {
     if (time < maxTime) {
       console.error('第 %d 次尝试失败', time, new Date().toLocaleString());
       setTimeout(() => {
-        repeatFetch(time);
+        repeatFetch(time, true);
       }, 1000*60);
     } else {
       console.info('请手动尝试重启服务');
