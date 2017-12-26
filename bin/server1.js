@@ -101,22 +101,9 @@ const get_config = (obj) => {
 };
 
 const repeatFetch = (time = 0) => {
-  if (isRunning) {
-    return;
-  }
-  isRunning = true;
-  fetchConfig(url).then(() => {
-    isRunning = false;
-    if (time === 0) {
-      time = 0;
-      console.log("update Shadowsocks config successful", new Date().toLocaleString());
-      schedule.scheduleJob(rule, () => {
-        console.log('启动定时任务', new Date().toLocaleString());
-        repeatFetch();
-      });
-    } else {
-      time = 0;
-    }
+  return fetchConfig(url).then(() => {
+    time = 0;
+    console.log("update Shadowsocks config successful", new Date().toLocaleString());
   }).catch(() => {
     time++;
     if (time < maxTime) {
@@ -127,7 +114,18 @@ const repeatFetch = (time = 0) => {
     } else {
       console.info('请手动尝试重启服务');
     }
+    return Promise.reject();
   });
 };
 
 repeatFetch();
+schedule.scheduleJob(rule, () => {
+  if (isRunning) {
+    return;
+  }
+  isRunning = true;
+  console.log('启动定时任务', new Date().toLocaleString());
+  repeatFetch().then(() => {
+    isRunning = false;
+  });
+});
